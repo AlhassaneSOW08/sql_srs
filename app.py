@@ -1,10 +1,19 @@
-
+import os
+import logging
 import duckdb
 import streamlit as st
-import ast
+
+
+if "data" not in os.listdir():
+    logging.error(os.listdir())
+    logging.error("creating folder data")
+    os.mkdir("data")
+
+if "exercises_sql_tables.duckdb" not in os.listdir("data"):
+    exec(open("init_db.py").read())
+    # subprocess.run(["python", "init_db.py"])
 
 con = duckdb.connect(database="data/exercises_sql_tables.duckdb", read_only=False)
-
 
 with st.sidebar:
     theme = st.selectbox(
